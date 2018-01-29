@@ -124,7 +124,6 @@
     $(document).ready(function () {
         $('.hidden').hide().removeClass('hidden').delay(400).fadeIn(600);
         var initData = 0;
-
         var radialObj = radialIndicator('#indicatorContainer', {
             radius: 60,
             barWidth: 5,
@@ -139,7 +138,6 @@
             fontWeight: 'normal',
             roundCorner: true,
         });
-
 //        setInterval(function () {
 //            if(initData <= 100) {
 //                initData++;
@@ -148,7 +146,6 @@
 //            }
 //            radialObj.value(initData);
 //        }, 30);
-
     });
 </script>
 <script>
@@ -157,7 +154,6 @@
         var isRoundTimeOutFlag = false;
         var questionTitle = "第二题";
         var gameCountDown, roundCountDown, circleCountDown;
-
         var initGame = 0;
         var gameObj = radialIndicator('#gameContainer', {
             radius: 60,
@@ -176,11 +172,13 @@
         
         $('#div-pk').css('display', 'none');
         $('#div-control').css('display', 'none');
-
         $('#start-game').on('click', function () {
+            if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+                $('#div-webView').css('width', '0');
+                $('#div-webView').css('height', '0');
+            }
             $('.question-title').empty();
             $('.question-title').append("在细胞免疫中，效应T细胞发挥免疫作用的机制是?");
-
             setTimeout(function () {
                 gameCountDown = setTimeout(function () {
                     isGameTimeOutFlag = true;
@@ -191,11 +189,9 @@
                     $('.question-title').append("答题结束");
                     questionTitle = "第二题";
                 }, 25000);
-
                 roundCountDown = setInterval(function () {
                     $('#next-question').click();
                 }, 5000);
-
                 circleCountDown = setInterval(function () {
                     if(initGame <= 5) {
                         initGame++;
@@ -205,39 +201,56 @@
                     gameObj.value(initGame);
                 }, 720);
             }, 2000);
-
             $('#div-webView').css('background', '#4352a3');
             $('#div-pk').css('display', 'block');
             $('#div-control').css('display', 'block');
             $('#div-webView-former').css('display', 'none');
-            $('#blue-pk').css('animation', 'showBluePk 1.5s ');
-            $('#red-pk').css('animation', 'showRedPk 1.5s ');
-            $('.control-btn').css('animation', 'showBtn 1s ');
-
-            setTimeout(function () {
-                $('#blue-pk').css('transform', 'translateX(-5rem) translateY(10rem) rotateZ(30deg)');
-                $('#red-pk').css('transform', 'translateX(5rem) translateY(0) rotateZ(30deg)');
-                $('.control-btn').css('animation', 'hideBtn 1s ');
-            }, 980);
-
-            setTimeout(function () {
-                $('#blue-pk').css('animation', 'hideBluePk 0.5s ');
-                $('#red-pk').css('animation', 'hideRedPk 0.5s ');
-            }, 1500);
-
-            setTimeout(function () {
-                $('#blue-pk').css('transform', 'translateX(-26rem) translateY(0) rotateZ(30deg)');
-                $('#red-pk').css('transform', 'translateX(26rem) translateY(10rem) rotateZ(30deg)');
-            }, 1980);
-
+            if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) { //手机端
+                $('#blue-pk').css('animation', 'showBluePkPhone 1.5s ');
+                $('#red-pk').css('animation', 'showRedPkPhone 1.5s ');
+                $('.control-btn').css('animation', 'showBtn 1s ');
+                setTimeout(function () {
+                    $('#blue-pk').css('transform', 'translateX(-5rem) translateY(10rem) rotateZ(30deg)');
+                    $('#red-pk').css('transform', 'translateX(5rem) translateY(0) rotateZ(30deg)');
+                    $('.control-btn').css('animation', 'hideBtn 1s ');
+                }, 980);
+                setTimeout(function () {
+                    $('#blue-pk').css('animation', 'hideBluePkPhone 0.5s ');
+                    $('#red-pk').css('animation', 'hideRedPkPhone 0.5s ');
+                }, 1500);
+                setTimeout(function () {
+                    $('#blue-pk').css('transform', 'translateX(-60vw) translateY(0) rotateZ(30deg)');
+                    $('#red-pk').css('transform', 'translateX(60vw) translateY(10rem) rotateZ(30deg)');
+                }, 1980);
+            }else { //PC端
+                $('#blue-pk').css('animation', 'showBluePk 1.5s ');
+                $('#red-pk').css('animation', 'showRedPk 1.5s ');
+                $('.control-btn').css('animation', 'showBtn 1s ');
+                setTimeout(function () {
+                    $('#blue-pk').css('transform', 'translateX(-5rem) translateY(10rem) rotateZ(30deg)');
+                    $('#red-pk').css('transform', 'translateX(5rem) translateY(0) rotateZ(30deg)');
+                    $('.control-btn').css('animation', 'hideBtn 1s ');
+                }, 980);
+                setTimeout(function () {
+                    $('#blue-pk').css('animation', 'hideBluePk 0.5s ');
+                    $('#red-pk').css('animation', 'hideRedPk 0.5s ');
+                }, 1500);
+                setTimeout(function () {
+                    $('#blue-pk').css('transform', 'translateX(-26rem) translateY(0) rotateZ(30deg)');
+                    $('#red-pk').css('transform', 'translateX(26rem) translateY(10rem) rotateZ(30deg)');
+                }, 1980);
+            }
             setTimeout(function () {
                 $('#div-pk').css('display', 'none');
                 $('#div-control').css('display', 'none');
                 $('#div-game-view').css('display', 'block');
             }, 2000);
         });
-
         $('#return-back').on('click', function () {
+            if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+                $('#div-webView').css('width', '340px');
+                $('#div-webView').css('height', '600px');
+            }
             $('#div-webView-former').css('display', 'block');
             $('#div-game-view').css('display', 'none');
             $('#div-webView').css('background', '#7bc1d6');
@@ -245,46 +258,36 @@
             isRoundTimeOutFlag = false;
             $('.answer-option').css('background', 'rgba(250, 250, 250, 0.7)');
             $('.answer-option').css('color', '#4352a3');
-
             clearTimeout(gameCountDown);
             clearInterval(roundCountDown);
             clearInterval(circleCountDown);
-
             $('#my-score .score-num').val(0);
             $('#my-score .progress-bar').attr('aria-valuenow', 0);
             $('#my-score .progress-bar').css('width', 0);
-
             $('.question-title').empty();
             $('.question-title').append("在细胞免疫中，效应T细胞发挥免疫作用的机制是?");
             questionTitle = "第二题";
-
             initGame = 0;
             gameObj.value(0);
         });
-
         $(document).on('mousedown', '.answer-option', function () {
             if(isRoundTimeOutFlag === false) {
                 $(this).css('transform', 'scale(0.9, 0.9)');
             }
         });
-
         $(document).on('mouseup', '.answer-option', function () {
             $(this).css('transform', 'scale(1, 1)');
         });
-
         $(document).on('mouseover', '.answer-option', function () {
             if(isRoundTimeOutFlag === false){
                 $(this).css('background', 'rgba(250, 250, 250, 1)');
             }
         });
-
         $(document).on('mouseout', '.answer-option', function () {
             if(isRoundTimeOutFlag === false) {
                 $(this).css('background', 'rgba(250, 250, 250, 0.7)');
             }
         });
-
-
         $(document).on('click', '.answer-option', function () {
             if(isRoundTimeOutFlag === false) {
                 if ($(this).attr('name') === $('#answer-result').val()) {
@@ -299,7 +302,6 @@
                 }
             }
         });
-
         $(document).on('click', '#next-question', function () {
             isRoundTimeOutFlag = false;
             $('.question-title').empty();
@@ -313,24 +315,20 @@
             }
             changeOption();
         });
-
         function changeCursor() {
             $('.answer-option').each(function () {
                 $(this).css('cursor', 'default');
             });
             isRoundTimeOutFlag = true;
         }
-
         function changeScore() {
             var oldScore = $('#my-score .progress-bar').attr('aria-valuenow');
             var maxScore = $('#my-score .progress-bar').attr('aria-valuemax');
             var widthPercent = ((parseInt(oldScore) + 200) / parseInt(maxScore)) * 100 + "%";
-
             $('#my-score .score-num').val(parseInt(oldScore) + 200);
             $('#my-score .progress-bar').attr('aria-valuenow', parseInt(oldScore) + 200);
             $('#my-score .progress-bar').css('width', widthPercent);
         }
-
         function changeOption() {
             var nextAnswer = ["选项一", "选项二", "选项三", "选项四"];
             $('.answer-option').each(function (i) {
@@ -356,9 +354,7 @@
     $(document).ready(function () {
         var pausedTimer;
         var dog = document.getElementById('dog');
-
         $('#dogHand').css('animation', 'shakeHand 2s infinite linear');
-
         $(document).on('click', '#dog', function () {
             if($(this).css('font-size') != "20px"){
                 showDogAndMsg();
@@ -366,13 +362,11 @@
                 hideDogAndMsg();
             }
         })
-
         function stopShake() {
             dog.style.webkitAnimationPlayState = "paused";
             $('#dog').remove();
             $('#div-webView-former').append('<div id="dog"></div>');
         }
-
         function reBootShake(msg) {
             if (dog.style.webkitAnimationPlayState === "paused") {
                 dog.style.webkitAnimationPlayState = "running";
@@ -383,28 +377,122 @@
                 dog.style.webkitAnimationPlayState = "paused";
             }
         }
-
         function showDogAndMsg() {
             $('#dogHand').css('display', 'none');
-            $('#dog').css('animation', 'rollOut 0.5s linear');
-            $('#msgBar').css('animation', 'showMsg 0.5s linear');
-            setTimeout(function () {
-                $('#dog').css('transform', 'translateX(10rem)');
-                $('#dog').css('font-size', '20px');
-                $('#msgBar').css('transform', 'translateX(0)');
-            }, 450)
+            if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+                $('#msgBar').css('font-size', '3.5rem');
+                $('#dog').css('animation', 'rollOutPhone 0.5s linear');
+                $('#msgBar').css('animation', 'showMsgPhone 0.5s linear');
+                setTimeout(function () {
+                    $('#dog').css('transform', 'translateX(25rem)');
+                    $('#dog').css('font-size', '20px');
+                    $('#msgBar').css('transform', 'translateX(0)');
+                }, 450);
+            }else {
+                $('#dog').css('animation', 'rollOut 0.5s linear');
+                $('#msgBar').css('animation', 'showMsg 0.5s linear');
+                setTimeout(function () {
+                    $('#dog').css('transform', 'translateX(10rem)');
+                    $('#dog').css('font-size', '20px');
+                    $('#msgBar').css('transform', 'translateX(0)');
+                }, 450);
+            }
         }
-
         function hideDogAndMsg() {
-            $('#dog').css('animation', 'rollIn 0.5s linear');
-            $('#msgBar').css('animation', 'hideMsg 0.5s linear');
-            setTimeout(function () {
-                $('#dog').css('transform', 'translateX(0)');
-                $('#dog').css('font-size', '13px');
-                $('#msgBar').css('transform', 'translateX(-13.56rem)');
-                $('#dogHand').css('display', 'block');
-            }, 450)
+            if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+                $('#dog').css('animation', 'rollInPhone 0.5s linear');
+                $('#msgBar').css('animation', 'hideMsgPhone 0.5s linear');
+                setTimeout(function () {
+                    $('#dog').css('transform', 'translateX(0)');
+                    $('#dog').css('font-size', '13px');
+                    $('#msgBar').css('transform', 'translateX(-29.56rem)');
+                    $('#msgBar').css('font-size', '3.5rem');
+                    $('#dogHand').css('display', 'block');
+                }, 430);
+            }else {
+                $('#dog').css('animation', 'rollIn 0.5s linear');
+                $('#msgBar').css('animation', 'hideMsg 0.5s linear');
+                setTimeout(function () {
+                    $('#dog').css('transform', 'translateX(0)');
+                    $('#dog').css('font-size', '13px');
+                    $('#msgBar').css('transform', 'translateX(-13.56rem)');
+                    $('#dogHand').css('display', 'block');
+                }, 450);
+            }
         }
     })
+</script>
+<script>
+    $(document).ready(function () {
+        if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+            $('#edu-background').css('background', '#7bc1d6');
+            $('#edu-background').css('width', '100%');
+            $('#edu-background').css('height', '100%');
+            $('#edu-background').css('margin', '0');
+            $('#div-webView-former').css('width', '100%');
+            $('#div-webView-former').css('height', '100%');
+            $('#div-webView-former').css('margin', '0');
+            $('#user-info').css('height', '30rem');
+            $('#dog').css('width', '10rem');
+            $('#dog').css('height', '10rem');
+            $('#dogHand').css('width', '6rem');
+            $('#dogHand').css('height', '6rem');
+            $('#dogHand').css('margin-top', '6rem');
+            $('#dogHand').css('margin-left', '-10.5rem');
+            $('#msgBar').css('width', '28.56rem');
+            $('#msgBar').css('height', '9rem');
+            $('#msgBar').css('transform', 'translateX(-29.56rem)');
+            $('.lesson-view').css('margin-top', '30rem');
+            $('.lesson-model-left,.lesson-model-right').css('height', '30rem');
+            $('#progress').css('margin-top', '14rem');
+            $('#indicatorContainer canvas:last-child').css('margin-top', '5rem');
+            $('#indicatorContainer canvas:last-child').css('width', '20rem');
+            $('#indicatorContainer canvas:last-child').css('height', '20rem');
+            $('#start-game').css('margin-top', '11rem');
+            $('#start-game').css('width', '80%');
+            $('#start-game').css('height', '8rem');
+            $('#start-game').css('font-size', '4rem');
+            $('#div-game-view').css('width', '100vw');
+            $('#div-game-view').css('height', '100vh');
+            $('#div-game-view').css('top', '0');
+            $('#div-game-view').css('background', 'rgb(67, 82, 163)');
+            $('#return-back').css('font-size', '4rem');
+            $('#return-back').parent().css('text-align', 'left');
+            $('.user-score').css('height', '20vh');
+            $('.user-score').css('margin-top', '5vh');
+            $('#gameContainer canvas:last-child').css('width', '30rem');
+            $('#gameContainer canvas:last-child').css('height', '30rem');
+            $('.question-title').css('height', '20vh');
+            $('.question-title').css('font-size', '6rem');
+            $('.score-num').css('font-size', '5rem');
+            $('.score-progress .progress').css('width', '40vh');
+            $('.score-progress .progress').css('margin-top', '35vh');
+            $('.answer-option').css('height', '10vh');
+            $('.answer-option').css('margin-top', '1vh');
+            $('.answer-option').css('border-radius', '3vh');
+            $('.answer-option').css('font-size', '5rem');
+            $('.answer-option input').css('font-size', '5rem');
+            $('#div-pk').css('width', '100vw');
+            $('#div-pk').css('height', '100vh');
+            $('#div-pk').css('border-radius', '0');
+            $('#div-pk').css('margin-top', '0');
+            $('#blue-pk').css('width', '100vw');
+            $('#blue-pk').css('border-radius', '10vh');
+            $('#blue-pk').css('transform', 'translateX(-100vw) rotateZ(30deg)');
+            $('#red-pk').css('width', '100vw');
+            $('#red-pk').css('border-radius', '10vh');
+            $('#red-pk').css('transform', 'translateX(100vw) rotateZ(30deg)');
+            $('.profile-left, .profile-right').css('width', '9vh');
+            $('.profile-left, .profile-right').css('height', '9vh');
+            $('.profile-left, .profile-right').css('margin-top', '0.5vh');
+            $('.profile-left').css('margin-right', '0.5vh');
+            $('.profile-right').css('margin-left', '0.5vh');
+            $('#div-control').css('margin-top', '-65vh');
+            $('#div-control').css('width', '100vw');
+            $('.control-btn').css('font-size', '5rem');
+            $('.control-btn').css('border-radius', '2vw');
+            $('.control-btn').css('height', '5vh');
+        }
+    });
 </script>
 </html>
